@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Gradle Techday</title>
+
+    <meta name="description" content="Gradle Techday">
+    <meta name="author" content="Jos Lagerweij">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="bower_components/reveal.js/lib/css/zenburn.css">
+    <link rel="stylesheet" href="bower_components/avisi-reveal-js-template/avisi.css" id="theme">
+
+</head>
+
+<body>
+
+<div class="reveal">
+    <div class="company"></div>
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+        <section>
+            <h1>Gradle</h1>
+            <h3>Introduction to Gradle</h3>
+            <p>
+                <small>By Jos Lagerweij</small>
+            </p>
+        </section>
+        <section>
+            <section>
+                <h1>History</h1>
+                <p>
+                <ul>
+                    <li>Script</li>
+                    <li>Make</li>
+                    <li>Ant</li>
+                    <li>Maven</li>
+                    <li>Gradle</li>
+                </ul>
+                </p>
+            </section>
+
+            <section>
+                <h2>Script</h2>
+                <pre><code>
+#!/bin/sh
+case $1 in
+    classes)
+        mkdir out
+        for file in *.java
+        do
+           javac $file -d out/
+        done
+        ;;
+    clean)
+        rm -rf out
+        ;;
+    esac
+            </code></pre>
+            </section>
+            <section>
+                <h2>Make</h2>
+                <pre><code>
+JFLAGS = -g
+JC = javac
+.SUFFIXES: .java .class
+.java.class:
+        $(JC) $(JFLAGS) $*.java
+
+CLASSES = \
+        Foo.java \
+        Blah.java \
+        Library.java \
+        Main.java
+
+default: classes
+
+classes: $(CLASSES:.java=.class)
+
+clean:
+        $(RM) *.class
+            </code></pre>
+            </section>
+
+            <section>
+                <h2>Ant</h2>
+                <pre><code data-trim data-escape>
+<project name="MyProject" default="dist" basedir=".">
+  <description>
+    simple example build file
+  </description>
+    <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp></tstamp>
+      <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"></mkdir>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the source">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}"></javac>
+  </target>
+
+  <target name="dist" depends="compile"
+          description="generate the distribution">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"></mkdir>
+
+      <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}"></jar>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"></delete>
+    <delete dir="${dist}"></delete>
+  </target>
+</project>
+            </code></pre>
+                <aside class="notes">
+                    Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you
+                    open the speaker notes window (hit 's' on your keyboard).
+                </aside>
+            </section>
+
+            <section>
+                <h2>Maven</h2>
+                <pre><code data-trim data-escape>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.moreapps</groupId>
+    <artifactId>moreapps-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>5.1.0-SNAPSHOT</version>
+    <name>MoreApps Parent</name>
+    <inceptionYear>2013</inceptionYear>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <modules>
+        <module>util</module>
+        <module>mongo-util</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.moreapps</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+                <classifier>classes</classifier>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>more-apps-releases</id>
+            <name>MoreApps Releases Repository</name>
+            <url>http://nexus.insight.sbp.avisi.nl:8081/nexus/content/repositories/more-apps-releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>more-apps-releases</id>
+            <name>MoreApps Repository</name>
+            <url>http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/more-apps/</url>
+        </repository>
+    </repositories>
+</project>
+            </code></pre>
+            </section>
+        </section>
+    </div>
+</div>
+
+<script src="bower_components/reveal.js/lib/js/head.min.js"></script>
+<script src="bower_components/reveal.js/js/reveal.js"></script>
+
+<script type="text/javascript">
+    Reveal.initialize({
+        controls : true,
+        progress : true,
+        history : true,
+        center : true,
+        slideNumber : true,
+
+        transition : 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies : [
+            {
+                src : 'bower_components/reveal.js/lib/js/classList.js', condition : function () {
+                return !document.body.classList;
+            }
+            },
+            {
+                src : 'bower_components/reveal.js/plugin/markdown/marked.js', condition : function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src : 'bower_components/reveal.js/plugin/markdown/markdown.js', condition : function () {
+                return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src : 'bower_components/reveal.js/plugin/highlight/highlight.js', async : true, callback : function () {
+                hljs.initHighlightingOnLoad();
+            }
+            },
+            {src : 'bower_components/reveal.js/plugin/zoom-js/zoom.js', async : true},
+            {src : 'bower_components/reveal.js/plugin/notes/notes.js', async : true}
+        ]
+    });
+</script>
+
+</body>
+
+</html>
