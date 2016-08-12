@@ -1,0 +1,34 @@
+apply plugin: 'java'
+
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    integTest {
+        extendsFrom testRuntime
+    }
+}
+
+dependencies {
+    compile "commons-collections:commons-collections:3.2"
+    testCompile "junit:junit:4.12"
+    integTest "xmlunit:xmlunit:1.3"
+}
+
+sourceSets {
+    integTest {
+        java.srcDir file('src/integration-test/java')
+        resources.srcDir file('src/integration-test/resources')
+        compileClasspath = sourceSets.main.output + configurations.integTest
+        runtimeClasspath = output + compileClasspath
+    }
+}
+
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+}
