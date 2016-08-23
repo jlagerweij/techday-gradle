@@ -4,7 +4,7 @@ Incremental build
 1. clean build -> everything is compiled
 2. Remove property from Person
 3. Remove comment from Person, see what is up-to-date
-4. Change sourceCompatibilty to '1.8'
+4. Change sourceCompatibility to '1.8'
 5. Change version junit to 4.8
 6. Change the output, remove the Person.class from the build directory
 7. Use inputs and outputs for a custom task
