@@ -1,10 +1,13 @@
-# Techday Gradle
+Techday Gradle
+=
 
-## Presentation
+Presentation
+-
 
 In directory type ./gradlew to build and view the presentation.
 
-## Hands-on
+Hands-on
+-
 
 1. Convert Maven project into Gradle project
 
