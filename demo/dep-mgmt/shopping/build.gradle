@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'org.shops:grocery:0.1-alpha'
+    compile 'org.cars:car:1.0'
+//    compile ('com.google.collections:google-collections:1.0') {
+//        force = true
+//    }
+
+    testCompile 'junit:junit:4.10'
+}
+
+configurations.compile.resolutionStrategy {
+    force 'com.google.collections:google-collections:0.8'
+    failOnVersionConflict()
+}

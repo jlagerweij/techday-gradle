@@ -1,0 +1,7 @@
+apply plugin: 'war'
+
+dependencies {
+    compile project(':helloworld')
+    compile "org.springframework:spring-core:${springVersion}"
+    providedCompile "javax.servlet:javax.servlet-api:${javaxServletApiVersion}"
+}

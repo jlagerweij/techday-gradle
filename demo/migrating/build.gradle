@@ -1,0 +1,32 @@
+apply plugin: 'base'
+
+task npm(type: Exec) {
+    group = "Build"
+    description = "Installs all Node.js dependencies defined in package.json"
+    commandLine = ["npm", "install"]
+    inputs.file "package.json"
+    outputs.dir "node_modules"
+}
+
+task bower(type: Exec, dependsOn: npm) {
+    group = "Build"
+    description = "Installs all Bower dependencies defined in bower.json"
+    commandLine = ["node_modules/.bin/bower", "install"]
+    inputs.file "bower.json"
+    outputs.dir "app/components"
+}
+
+task gulp(type: Exec, dependsOn: bower) {
+    group = "Build"
+    description = "Gulp portals"
+    commandLine = ["node_modules/.bin/gulp"]
+    inputs.file "gulpfile.js"
+    inputs.dir "app"
+    outputs.dir "build"
+}
+
+assemble.dependsOn gulp
+
+clean.dependsOn cleanNpm
+clean.dependsOn cleanBower
+clean.dependsOn cleanGulp

@@ -1,0 +1,4 @@
+rootProject.name = 'intro-multi-module'
+
+include ':helloworld'
+include ':web'

@@ -1,0 +1,28 @@
+plugins {
+    id "io.spring.dependency-management" version "0.6.0.RELEASE"
+}
+
+allprojects {
+    version = '1.0'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: "io.spring.dependency-management"
+    apply from: "${rootProject.projectDir}/gradle-plugins/integration-test.gradle"
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency 'javax.servlet:javax.servlet-api:3.0.1'
+
+            dependency('org.springframework:spring-core:4.0.3.RELEASE') {
+                exclude 'commons-logging:commons-logging'
+            }
+        }
+    }
+}
+

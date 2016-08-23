@@ -1,0 +1,17 @@
+{
+  "name": "techday-migration-demo",
+  "version": "0.0.0",
+  "devDependencies": {
+    "bower": "1.7.1",
+    "browser-sync": "2.10.1",
+    "browserify": "12.0.1",
+    "del": "2.2.0",
+    "gulp": "3.9.0",
+    "gulp-less": "3.0.5",
+    "gulp-newer": "1.1.0",
+    "lodash" : "3.10.1"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

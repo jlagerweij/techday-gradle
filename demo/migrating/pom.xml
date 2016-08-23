@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>nl.avisi.gradle.techday</groupId>
+    <artifactId>migration</artifactId>
+    <version>1.0.1</version>
+
+    <packaging>jar</packaging>
+
+    <name>Migration demo</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${project.basedir}</directory>
+                            <includes>
+                                <include>**/build</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+
+                    <execution>
+                        <id>exec-setup-resources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <target name="Setup Resources">
+                                <echo>Download Node Dependencies</echo>
+                                <exec executable="npm" dir="${project.basedir}" failonerror="true">
+                                    <arg line="install"/>
+                                </exec>
+                                <echo>Clear Bower Cache</echo>
+                                <exec executable="./node_modules/.bin/bower" dir="${project.basedir}"
+                                      failonerror="true">
+                                    <arg line="cache clean"/>
+                                </exec>
+                                <echo>Download Bower Dependencies</echo>
+                                <exec executable="./node_modules/.bin/bower" dir="${project.basedir}"
+                                      failonerror="true">
+                                    <arg line="install"/>
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>prepare-distribution</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target name="Gulp">
+                                <echo>Prepare Distribution</echo>
+                                <exec executable="./node_modules/.bin/gulp" dir="${project.basedir}"
+                                      failonerror="true">
+                                </exec>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

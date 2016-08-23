@@ -29,16 +29,22 @@
     <div class="slides">
 
         <section>
-            <h1>Gradle</h1>
-            <h3>Introduction to Gradle</h3>
+            <h2>Gradle to Gradle</h2>
+            <h7>Introduction to Gradle</h7>
             <p>
                 <small>By Jos Lagerweij</small>
             </p>
         </section>
         <section>
+            <h1>Gradle</h1>
+            <p>History</p>
+            <p>Gradle basics</p>
+            <p>Dependency management</p>
+            <p>Migrating to Gradle</p>
+        </section>
+        <section>
             <section>
                 <h1>History</h1>
-                <p>
                 <ul>
                     <li>Script</li>
                     <li>Make</li>
@@ -46,7 +52,6 @@
                     <li>Maven</li>
                     <li>Gradle</li>
                 </ul>
-                </p>
             </section>
 
             <section>
@@ -99,9 +104,9 @@ clean:
     simple example build file
   </description>
     <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist" location="dist"/>
+  <property name="src" location="src"></property>
+  <property name="build" location="build"></property>
+  <property name="dist" location="dist"></property>
 
   <target name="init">
     <!-- Create the time stamp -->
@@ -134,8 +139,7 @@ clean:
 </project>
             </code></pre>
                 <aside class="notes">
-                    Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you
-                    open the speaker notes window (hit 's' on your keyboard).
+                    Originated from the Apache Tomcat project in early 2000
                 </aside>
             </section>
 
@@ -143,9 +147,9 @@ clean:
                 <h2>Maven</h2>
                 <pre><code data-trim data-escape>
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+                    <project xmlns="http://maven.apache.org/POM/4.0.0"
+                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -216,8 +220,113 @@ clean:
     </repositories>
 </project>
             </code></pre>
+                <aside class="notes">
+                    Started in the Jakarta Alexandria project in 2001, released as Maven in 2004
+                </aside>
+            </section>
+
+            <section>
+                <h2>Gradle</h2>
+                <pre><code data-trim data-escape>
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    maven { url "http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/avisi-nexus" }
+    maven { url "http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/more-apps/" }
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'com.moreapps', name: 'api', version: '5.3.1'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}            </code></pre>
+                <aside class="notes">
+                    Started in 2008
+                </aside>
+            </section>
+
+        </section>
+
+        <section>
+            <h2>Gradle basics</h2>
+            <ul>
+                <li>Simple Hello World</li>
+                <li>Java project</li>
+                <li>Integration tests</li>
+                <li>Sharing Gradle</li>
+                <li>Multi modules</li>
+                <li>Incremental build</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Dependency Management</h2>
+
+            <section>
+                <ul>
+                    <li>Show dependencies</li>
+                    <li>Disable conflict resolution</li>
+                    <li>Force specific version</li>
+                    <li>Module exclusion</li>
+                    <li>Select other version or target</li>
+                    <li>Prevent bad versions</li>
+                    <li>Dependency substitution</li>
+                </ul>
             </section>
         </section>
+
+        <section>
+            <h2>Migrating to Gradle</h2>
+            <ul>
+                <li>Baby steps</li>
+                <li>Plugin <a href="https://plugins.gradle.org/plugin/net.linguica.maven-settings">net.linguica.maven-settings</a><br/>
+                    use Maven settings from .m2/settings.xml
+                </li>
+                <li>Verify archives with current build</li>
+                <li>Don't change source code until Gradle builds are correct</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Questions?</h1>
+        </section>
+
+        <section>
+            <h1>Hands-on</h1>
+            <ol>
+                <li>Migrating (parts of) your project to Gradle<br/>
+                    use <code>gradle init</code>
+                </li>
+                <li>Use com.craigburke.client-dependencies for NPM and Bower dependencies</li>
+                <li>Create NPM Gradle build using:
+                    <ul>
+                        <li>gradle-node-plugin</li>
+                        <li>gradle-gulp-plugin</li>
+                        <li>bower-to-prod-gradle-plugin</li>
+                        <li><a href="https://blog.shinetech.com/2014/03/19/javascript-webapps-with-gradle/">gradle-js-plugin</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>Use 'net.diibadaaba.zipdiff:zipdiff:1.0' as Ant task to verify archives</li>
+            </ol>
+            <p></p>
+        </section>
+
     </div>
 </div>
 
