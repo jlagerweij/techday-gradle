@@ -6,9 +6,9 @@ group = 'org.cars'
 version = '1.0'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  compile 'com.google.collections:google-collections:0.8'
+    compile 'com.google.collections:google-collections:0.8'
 }

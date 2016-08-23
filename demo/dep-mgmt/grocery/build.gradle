@@ -6,9 +6,9 @@ group = 'org.shops'
 version = '0.1-alpha'
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  compile 'com.google.collections:google-collections:0.9'
+    compile 'com.google.collections:google-collections:0.9'
 }

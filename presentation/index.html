@@ -19,6 +19,22 @@
     <link rel="stylesheet" href="bower_components/reveal.js/lib/css/zenburn.css">
     <link rel="stylesheet" href="bower_components/avisi-reveal-js-template/avisi.css" id="theme">
 
+    <style>
+        .txtUpsideDown {
+            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2); /* IE6,IE7 */
+            ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)"; /* IE8 */
+            -moz-transform: rotate(-180deg); /* FF3.5+ */
+            -o-transform: rotate(-180deg); /* Opera 10.5 */
+            -webkit-transform: rotate(-180deg); /* Safari 3.1+, Chrome */
+            position: absolute;
+        }
+
+        .upsidedown {
+            display: inline-block;
+            /*-webkit-transform: rotateX(180deg);*/
+            transform: rotateX(180deg) translate(0px, 2px);
+        }
+    </style>
 </head>
 
 <body>
@@ -29,14 +45,14 @@
     <div class="slides">
 
         <section>
-            <h2>Gradle to Gradle</h2>
+            <h2>Gr<span class="upsidedown">v</span>dle to Gr<span class="upsidedown">v</span>dle</h2>
             <h7>Introduction to Gradle</h7>
             <p>
                 <small>By Jos Lagerweij</small>
             </p>
         </section>
         <section>
-            <h1>Gradle</h1>
+            <h1>Gr<span class="upsidedown">v</span>dle</h1>
             <p>History</p>
             <p>Gradle basics</p>
             <p>Dependency management</p>
@@ -56,88 +72,16 @@
 
             <section>
                 <h2>Script</h2>
-                <pre><code>
-#!/bin/sh
-case $1 in
-    classes)
-        mkdir out
-        for file in *.java
-        do
-           javac $file -d out/
-        done
-        ;;
-    clean)
-        rm -rf out
-        ;;
-    esac
-            </code></pre>
+                <pre><code data-code="history/script.sh"></code></pre>
             </section>
             <section>
                 <h2>Make</h2>
-                <pre><code>
-JFLAGS = -g
-JC = javac
-.SUFFIXES: .java .class
-.java.class:
-        $(JC) $(JFLAGS) $*.java
-
-CLASSES = \
-        Foo.java \
-        Blah.java \
-        Library.java \
-        Main.java
-
-default: classes
-
-classes: $(CLASSES:.java=.class)
-
-clean:
-        $(RM) *.class
-            </code></pre>
+                <pre><code data-code="history/makefile"></code></pre>
             </section>
 
             <section>
                 <h2>Ant</h2>
-                <pre><code data-trim data-escape>
-<project name="MyProject" default="dist" basedir=".">
-  <description>
-    simple example build file
-  </description>
-    <!-- set global properties for this build -->
-  <property name="src" location="src"></property>
-  <property name="build" location="build"></property>
-  <property name="dist" location="dist"></property>
-
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp></tstamp>
-      <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"></mkdir>
-  </target>
-
-  <target name="compile" depends="init"
-          description="compile the source">
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}"></javac>
-  </target>
-
-  <target name="dist" depends="compile"
-          description="generate the distribution">
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}/lib"></mkdir>
-
-      <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-    <jar jarfile="${dist}/lib/MyProject-${DSTAMP}.jar" basedir="${build}"></jar>
-  </target>
-
-  <target name="clean"
-          description="clean up">
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"></delete>
-    <delete dir="${dist}"></delete>
-  </target>
-</project>
-            </code></pre>
+                <pre><code data-code="history/build.ant"></code></pre>
                 <aside class="notes">
                     Originated from the Apache Tomcat project in early 2000
                 </aside>
@@ -145,116 +89,15 @@ clean:
 
             <section>
                 <h2>Maven</h2>
-                <pre><code data-trim data-escape>
-<?xml version="1.0" encoding="UTF-8"?>
-                    <project xmlns="http://maven.apache.org/POM/4.0.0"
-                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                             xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.moreapps</groupId>
-    <artifactId>moreapps-parent</artifactId>
-    <packaging>pom</packaging>
-    <version>5.1.0-SNAPSHOT</version>
-    <name>MoreApps Parent</name>
-    <inceptionYear>2013</inceptionYear>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-    <modules>
-        <module>util</module>
-        <module>mongo-util</module>
-    </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.moreapps</groupId>
-                <artifactId>api</artifactId>
-                <version>${project.version}</version>
-                <classifier>classes</classifier>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <distributionManagement>
-        <repository>
-            <id>more-apps-releases</id>
-            <name>MoreApps Releases Repository</name>
-            <url>http://nexus.insight.sbp.avisi.nl:8081/nexus/content/repositories/more-apps-releases/</url>
-        </repository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>more-apps-releases</id>
-            <name>MoreApps Repository</name>
-            <url>http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/more-apps/</url>
-        </repository>
-    </repositories>
-</project>
-            </code></pre>
+                <pre><code data-code="history/maven-pom.xml"></code></pre>
                 <aside class="notes">
                     Started in the Jakarta Alexandria project in 2001, released as Maven in 2004
                 </aside>
             </section>
 
             <section>
-                <h2>Gradle</h2>
-                <pre><code data-trim data-escape>
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-version = '1.0'
-
-repositories {
-    maven { url "http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/avisi-nexus" }
-    maven { url "http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/more-apps/" }
-    mavenCentral()
-}
-
-dependencies {
-    compile group: 'com.moreapps', name: 'api', version: '5.3.1'
-    testCompile group: 'junit', name: 'junit', version: '4.+'
-}
-
-test {
-    systemProperties 'property': 'value'
-}
-
-uploadArchives {
-    repositories {
-       flatDir {
-           dirs 'repos'
-       }
-    }
-}            </code></pre>
+                <h2>Gr<span class="upsidedown">v</span>dle</h2>
+                <pre><code data-trim data-escape data-code="history/build.gradle"></code></pre>
                 <aside class="notes">
                     Started in 2008
                 </aside>
@@ -263,15 +106,29 @@ uploadArchives {
         </section>
 
         <section>
-            <h2>Gradle basics</h2>
-            <ul>
-                <li>Simple Hello World</li>
-                <li>Java project</li>
-                <li>Integration tests</li>
-                <li>Sharing Gradle</li>
-                <li>Multi modules</li>
-                <li>Incremental build</li>
-            </ul>
+            <section>
+                <h2>Gr<span class="upsidedown">v</span>dle basics</h2>
+                <ul>
+                    <li><a href="../demo/intro/helloworld.gradle">Simple Hello World</a></li>
+                    <li>Java project</li>
+                    <li>Integration tests</li>
+                    <li>Sharing Gradle</li>
+                    <li>Multi modules</li>
+                    <li>Incremental build</li>
+                </ul>
+            </section>
+            <section>
+                <pre><code data-code="../demo/intro/helloworld.gradle"></code></pre>
+            </section>
+            <section>
+                <pre><code data-code="../demo/intro/javaproject.gradle"></code></pre>
+            </section>
+            <section>
+                <pre><code data-code="../demo/intro/javaproject-with-IT.gradle"></code></pre>
+            </section>
+            <section>
+                <pre><code data-code="../demo/intro/javaproject-with-IT-plugin.gradle"></code></pre>
+            </section>
         </section>
 
         <section>
@@ -291,7 +148,7 @@ uploadArchives {
         </section>
 
         <section>
-            <h2>Migrating to Gradle</h2>
+            <h2>Migrating to Gr<span class="upsidedown">v</span>dle</h2>
             <ul>
                 <li>Baby steps</li>
                 <li>Plugin <a href="https://plugins.gradle.org/plugin/net.linguica.maven-settings">net.linguica.maven-settings</a><br/>
@@ -323,6 +180,9 @@ uploadArchives {
                     </ul>
                 </li>
                 <li>Use 'net.diibadaaba.zipdiff:zipdiff:1.0' as Ant task to verify archives</li>
+                <li>Gradle continuous development
+                    <small>Test Gradle continuous development by running Gradle --continuous.</small>
+                </li>
             </ol>
             <p></p>
         </section>
@@ -374,6 +234,11 @@ uploadArchives {
             {
                 src : 'bower_components/reveal.js/plugin/markdown/markdown.js', condition : function () {
                 return !!document.querySelector('[data-markdown]');
+            }
+            },
+            {
+                src : 'bower_components/reveal-plugin-externalcode/externalcode.js', condition : function () {
+                return !!document.querySelector('[data-code]');
             }
             },
             {

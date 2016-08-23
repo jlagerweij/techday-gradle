@@ -8,7 +8,7 @@ import org.shops.Grocery;
  */
 public class Shopping {
 
-    public static void main(String ... args) {
+    public static void main(String... args) {
         Car car = new Car();
         Grocery grocery = new Grocery();
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.moreapps</groupId>
+    <artifactId>moreapps-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>5.1.0-SNAPSHOT</version>
+    <name>MoreApps Parent</name>
+    <inceptionYear>2013</inceptionYear>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <modules>
+        <module>util</module>
+        <module>mongo-util</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.moreapps</groupId>
+                <artifactId>api</artifactId>
+                <version>${project.version}</version>
+                <classifier>classes</classifier>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>more-apps-releases</id>
+            <name>MoreApps Releases Repository</name>
+            <url>http://nexus.insight.sbp.avisi.nl:8081/nexus/content/repositories/more-apps-releases/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>more-apps-releases</id>
+            <name>MoreApps Repository</name>
+            <url>http://nexus.insight.sbp.avisi.nl:8081/nexus/content/groups/more-apps/</url>
+        </repository>
+    </repositories>
+</project>

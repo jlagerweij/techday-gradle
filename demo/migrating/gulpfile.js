@@ -8,6 +8,6 @@ gulp.task('compile-less', function () {
     .pipe(gulp.dest('path/to/destination'));
 });
 
-gulp.task('default', [], function() {
+gulp.task('default', [], function () {
   gulp.start('compile-less');
 });
