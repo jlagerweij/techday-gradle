@@ -2,25 +2,27 @@
 
 ## Presentation
 
+In directory type ./gradlew to build and view the presentation.
+
 ## Hands-on
 
 1. Convert Maven project into Gradle project
 
-2. Gradle uptodate with input and output
+Use gradle init.
+Use supplied maven-multi-module-ear project if you don't have your own project.
 
-3. Create zip archive
+2. Use com.craigburke.client-dependencies for NPM and Bower dependencies
 
-4. Create conventions plugin
+See: https://github.com/craigburke/client-dependencies-gradle
 
-Create a plugin with defaults set for multiple projects in your organisation.
-Think about the following:
+3. Create NPM Gradle build using:
 
- - Company repository
- - Jacoco
- - Sonar
+   - gradle-node-plugin
+   - gradle-gulp-plugin
+   - bower-to-prod-gradle-plugin
+   - gradle-js-plugin
 
-You might create a single conventions plugin or split them up so projects can choose them seperately.
-
+4. Use 'net.diibadaaba.zipdiff:zipdiff:1.0' as Ant task to verify archives
 
 5. Gradle continuous development
 

@@ -1,6 +1,9 @@
 plugins {
     id 'com.craigburke.bower-installer' version '2.5.1'
 }
+apply plugin: 'base'
+
+defaultTasks 'openUrlInBrowser'
 
 bower {
     installBase = 'bower_components'
@@ -16,6 +19,8 @@ task openUrlInBrowser {
     doLast {
         if (java.awt.Desktop.isDesktopSupported()) {
             java.awt.Desktop.desktop.browse file("./index.html").toURI()
+        } else {
+            "open ./index.html".execute()
         }
     }
 }
