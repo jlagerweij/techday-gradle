@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile('org.shops:grocery:0.1-alpha')
+    compile('org.cars:car:1.0')
+
+    testCompile 'junit:junit:4.10'
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        // Substitute project and module dependencies
+        substitute project(':car') with module('org.gradle:util:3.0')
+    }
+}

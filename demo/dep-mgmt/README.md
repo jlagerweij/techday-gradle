@@ -61,7 +61,7 @@ Module exclusion
 Add 
 
 ```
-exclude group:'com.google.collections' group:'google-collections'
+exclude group:'com.google.collections', module:'google-collections'
 ```
 
 in the compile closures for car and grocery in the shopping project
