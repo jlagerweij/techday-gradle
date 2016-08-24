@@ -4,7 +4,7 @@ Techday Gradle
 Presentation
 -
 
-In directory type ./gradlew to build and view the presentation.
+In directory type ```./gradlew start``` to build and view the presentation.
 
 Hands-on
 -

@@ -13,16 +13,16 @@ bower {
     'avisi-reveal-js-template'('https://github.com/stil4m/avisi-reveal-js-template.git')
 }
 
-task openUrlInBrowser {
-    // Suppresses the normal application Dock icon and menu bar from appearing on macOS
-    System.setProperty('apple.awt.UIElement', "true")
+task startHttpServer(dependsOn: 'bowerInstall') << {
+    SimpleHttpFileServerFactory factory = new SimpleHttpFileServerFactory()
+    HttpFileServer server = factory.start(new File(".."), 8085)
+    println("Server Started on http://localhost:8085/presentation/index.html ctrc+c to kill it")
 
-    doLast {
-        if (java.awt.Desktop.isDesktopSupported()) {
-            java.awt.Desktop.desktop.browse file("./index.html").toURI()
-        } else {
-            "open ./index.html".execute()
-        }
+    if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+        "cmd /c start http://localhost:8085/presentation/index.html".execute()
+    } else {
+        "open http://localhost:8085/presentation/index.html".execute()
     }
+
+    java.lang.Thread.sleep(Long.MAX_VALUE);
 }
-openUrlInBrowser.dependsOn(bowerInstall)
