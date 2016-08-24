@@ -13,11 +13,12 @@ dependencies {
     testCompile 'junit:junit:4.10'
 }
 
-configuration.compile.resolutionStrategy {
-    eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'com.google.collections' &&
-                details.requested.module == 'google-collections') {
-            details.useVersion = '1.0'
-        }
+configurations.compile {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('com.google.collections:google-collections') with module('com.google.collections:google-collections:1.0')
     }
+}
+
+configurations.compile.resolutionStrategy {
+    failOnVersionConflict()
 }

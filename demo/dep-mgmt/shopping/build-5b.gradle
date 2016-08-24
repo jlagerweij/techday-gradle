@@ -13,11 +13,8 @@ dependencies {
     testCompile 'junit:junit:4.10'
 }
 
-configuration.compile.resolutionStrategy {
-    eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'com.google.collections' &&
-                details.requested.module == 'google-collections') {
-            details.useTarget = 'com.google.guava:guava:19.0'
-        }
+configurations.compile {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('com.google.collections:google-collections') with module('com.google.guava:guava:19.0')
     }
 }

@@ -20,19 +20,10 @@
     <link rel="stylesheet" href="bower_components/avisi-reveal-js-template/avisi.css" id="theme">
 
     <style>
-        .txtUpsideDown {
-            filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2); /* IE6,IE7 */
-            ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)"; /* IE8 */
-            -moz-transform: rotate(-180deg); /* FF3.5+ */
-            -o-transform: rotate(-180deg); /* Opera 10.5 */
-            -webkit-transform: rotate(-180deg); /* Safari 3.1+, Chrome */
-            position: absolute;
-        }
-
         .upsidedown {
             display: inline-block;
             /*-webkit-transform: rotateX(180deg);*/
-            transform: rotateX(180deg) translate(0px, 2px);
+            transform: rotateX(180deg) translate(0px, 3px);
         }
     </style>
 </head>
@@ -151,21 +142,25 @@
                     <li>Module exclusion</li>
                     <li>Select other version or target</li>
                     <li>Prevent bad versions</li>
-                    <li>Dependency substitution</li>
                 </ul>
             </section>
         </section>
 
         <section>
-            <h2>Migrating to Gr<span class="upsidedown">v</span>dle</h2>
-            <ul>
-                <li>Baby steps</li>
-                <li>Plugin <a href="https://plugins.gradle.org/plugin/net.linguica.maven-settings">net.linguica.maven-settings</a><br/>
-                    use Maven settings from .m2/settings.xml
-                </li>
-                <li>Verify archives with current build</li>
-                <li>Don't change source code until Gradle builds are correct</li>
-            </ul>
+            <section>
+                <h2>Migrating to Gr<span class="upsidedown">v</span>dle</h2>
+            </section>
+            <section>
+                <h2>Migrating to Gr<span class="upsidedown">v</span>dle</h2>
+                <ul>
+                    <li>Baby steps</li>
+                    <li>Plugin <a href="https://plugins.gradle.org/plugin/net.linguica.maven-settings">net.linguica.maven-settings</a><br/>
+                        use Maven settings from .m2/settings.xml
+                    </li>
+                    <li>Verify archives with current build</li>
+                    <li>Don't change source code until Gradle builds are correct</li>
+                </ul>
+            </section>
         </section>
 
         <section>

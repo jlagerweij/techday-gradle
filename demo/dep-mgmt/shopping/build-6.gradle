@@ -13,9 +13,8 @@ dependencies {
     testCompile 'junit:junit:4.10'
 }
 
-configurations.all {
+configurations.compile {
     resolutionStrategy.dependencySubstitution {
-        // Substitute project and module dependencies
-        substitute project(':car') with module('org.gradle:util:3.0')
+        substitute module('com.google.guava:guava:14.0') with module('com.google.guava:guava:14.0.1')
     }
 }
