@@ -3,7 +3,7 @@ plugins {
 }
 apply plugin: 'base'
 
-defaultTasks 'openUrlInBrowser'
+defaultTasks 'startHttpServer'
 
 bower {
     installBase = 'bower_components'
@@ -12,6 +12,7 @@ bower {
     'reveal-plugin-externalcode'('https://github.com/pquerna/reveal.js-plugin-externalcode.git')
     'avisi-reveal-js-template'('https://github.com/stil4m/avisi-reveal-js-template.git')
 }
+clean.dependsOn bowerClean
 
 task startHttpServer(dependsOn: 'bowerInstall') << {
     SimpleHttpFileServerFactory factory = new SimpleHttpFileServerFactory()
