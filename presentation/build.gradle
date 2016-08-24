@@ -15,8 +15,8 @@ bower {
 clean.dependsOn bowerClean
 
 task startHttpServer(dependsOn: 'bowerInstall') << {
-    SimpleHttpFileServerFactory factory = new SimpleHttpFileServerFactory()
-    HttpFileServer server = factory.start(new File(".."), 8085)
+    new SimpleHttpFileServerFactory().start(new File(".."), 8085)
+
     println("Server Started on http://localhost:8085/presentation/index.html ctrc+c to kill it")
 
     if (System.getProperty('os.name').toLowerCase().contains('windows')) {
